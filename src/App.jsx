@@ -3,10 +3,10 @@ import InputBox from "./components/InputBox";
 import useCurrencyInfo from "./hooks/useCurrencyInfo";
 
 function App() {
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState();
   const [from, setFrom] = useState("usd");
   const [to, setTo] = useState("inr");
-  const [convertedAmount, setConvertedAmount] = useState(0);
+  const [convertedAmount, setConvertedAmount] = useState();
 
   const currencyInfo = useCurrencyInfo(from);
 
@@ -34,9 +34,12 @@ function App() {
   }, [amount, to, currencyInfo]);
 
   return (
-    <div className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat">
-      <div className="w-full">
-        <div className="w-full max-w-md mx-auto border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
+    <div className="bg-gradient-to-r from-neutral-300 to-stone-400 w-full h-screen flex justify-center items-center">
+      <div className="w-full max-w-lg p-6 flex flex-col items-center">
+        <h1 className="font-spaceGrotesk font-normal text-2xl sm:text-3xl md:text-3xl text-center mb-4">
+          CURRENCY CONVERTER
+        </h1>
+        <div className="w-full max-w-md border border-gray-60 rounded-lg p-4 backdrop-blur-sm bg-white/30">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -63,7 +66,7 @@ function App() {
                 swap
               </button>
             </div>
-            <div className="w-full mt-1 mb-4">
+            <div className="w-full mt-1">
               <InputBox
                 className="border border-gray-60"
                 label="To"
@@ -74,15 +77,20 @@ function App() {
                 amountDisabled={true}
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg"
-            >
-              Convert {from.toUpperCase()} to {to.toUpperCase()}
-            </button>
           </form>
         </div>
       </div>
+
+      <footer className="mx-6 absolute bottom-7 text-sm text-black font-light mb-4 text-center">
+        made by{" "}
+        <a
+          className="underline underline-offset-4"
+          href="https://github.com/darshil-here"
+        >
+          darshil
+        </a>{" "}
+        with two cups of coffees & ❤️
+      </footer>
     </div>
   );
 }

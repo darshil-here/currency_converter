@@ -1,3 +1,5 @@
+import React from "react";
+
 const InputBox = ({
   label,
   amount,
@@ -9,25 +11,33 @@ const InputBox = ({
   currencyDisabled = false,
   className = "",
 }) => {
-  const isCurrencyOptionsAvailable = currencyOptions.length > 0; // Check if options are available
+  const isCurrencyOptionsAvailable = currencyOptions.length > 0;
+
+  const handleAmountChange = (e) => {
+    const inputValue = e.target.value;
+    // Allow empty string or valid numbers
+    if (inputValue === "" || !isNaN(Number(inputValue))) {
+      onAmountChange(inputValue);
+    }
+  };
 
   return (
     <div className={`bg-white p-3 rounded-lg text-sm flex ${className}`}>
       <div className="w-1/2">
-        <label htmlFor="" className="text-black/40 mb-2 inline-block">
+        <label
+          htmlFor="amount-input"
+          className="text-black/40 mb-2 inline-block"
+        >
           {label}
         </label>
         <input
-          type="number"
-          className="outline-none w-full bg-transparent py-1.5"
+          id="amount-input"
+          type="number" // Changed from "number" to "text"
+          className="no-spinner outline-none w-full bg-transparent py-1.5"
           placeholder="Amount"
           disabled={amountDisabled}
           value={amount}
-          onChange={(e) => {
-            const value = Math.max(1, Number(e.target.value)); // Ensure the value is at least 1
-            onAmountChange(value); // Update the state with the validated value
-          }}
-          min={1}
+          onChange={handleAmountChange}
           style={{ appearance: "textfield" }}
         />
       </div>
@@ -35,8 +45,8 @@ const InputBox = ({
         <p className="text-black/40 mb-2 w-full">Currency Type</p>
         {isCurrencyOptionsAvailable ? (
           <select
-            className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
-            value={selectedCurrency} // Use controlled value
+            className="no-spinner rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
+            value={selectedCurrency}
             onChange={(e) => onCurrencyChange(e.target.value)}
             disabled={currencyDisabled}
           >
@@ -47,7 +57,7 @@ const InputBox = ({
             ))}
           </select>
         ) : (
-          <p>Loading currencies...</p> // You can display a loading state or fallback text
+          <p>Loading currencies...</p>
         )}
       </div>
     </div>
