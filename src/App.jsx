@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InputBox from "./components/InputBox";
 import useCurrencyInfo from "./hooks/useCurrencyInfo";
 
 function App() {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [from, setFrom] = useState("usd");
   const [to, setTo] = useState("inr");
   const [convertedAmount, setConvertedAmount] = useState(0);
@@ -24,6 +24,14 @@ function App() {
       setConvertedAmount(amount * currencyInfo[to]);
     }
   };
+  useEffect(() => {
+    if (currencyInfo[to]) {
+      // Check if the exchange rate exists before performing the calculation
+      setConvertedAmount(amount * currencyInfo[to]);
+    } else {
+      setConvertedAmount(0); // Set to 0 or some other default value if not available
+    }
+  }, [amount, to, currencyInfo]);
 
   return (
     <div className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat">
@@ -41,9 +49,9 @@ function App() {
                 label="From"
                 amount={amount}
                 currencyOptions={options}
-                onCurrencyChange={(currency) => setFrom(currency)}
-                selectCurrency={from}
-                onAmountChange={(amount) => setAmount(amount)}
+                onCurrencyChange={setFrom}
+                selectedCurrency={from}
+                onAmountChange={setAmount}
               />
             </div>
             <div className="relative w-full h-0.5">
@@ -61,8 +69,8 @@ function App() {
                 label="To"
                 amount={convertedAmount}
                 currencyOptions={options}
-                onCurrencyChange={(currency) => setTo(currency)}
-                selectCurrency={to}
+                onCurrencyChange={setTo}
+                selectedCurrency={to}
                 amountDisable={true}
               />
             </div>
