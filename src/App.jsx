@@ -81,7 +81,7 @@ function App() {
         </div>
       </div>
 
-      <footer className="mx-6 absolute bottom-7 text-sm text-black font-light mb-4 text-center">
+      <footer className="font-spaceGrotesk mx-6 absolute bottom-7 text-sm text-black font-light mb-4 text-center">
         made by{" "}
         <a
           className="underline underline-offset-4"
